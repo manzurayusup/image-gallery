@@ -1,1 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+</head>
+<body>
+    <div class="image" data-index="0">
+        <img src="flowers.jpg" alt="Flowers">
+    </div>
+    <div class="image" data-index="1">
+        <img src="bird.jpg" alt="Bird on a Branch">
+    </div>
+    <div class="image" data-index="2">
+        <img src="winter.jpg" alt="Mountains">
+    </div>
 
+    <script>
+        let images = document.getElementsByClassName("image");
+        for (let i = 0; i < images.length; i++) {
+            images[i].addEventListener("click", makeBigger);
+        }
+
+        function makeBigger() {
+            // make the image take up the whole page
+        }
+    </script>
+</body>
+</html>
