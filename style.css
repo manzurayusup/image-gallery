@@ -1,0 +1,40 @@
+
+body {
+    align-items: center;
+}
+#image_container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow: scroll;
+}
+img.small {
+    position: static;
+    width: 300px;
+    height: 300px;
+    display: inline-block;
+    margin: 20px;
+}
+/* when image is clicked: */
+.big-image {
+    position: fixed;
+    top: 15px;
+    left: 100px;
+    width: 60%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+.close_btn {
+    position: fixed;
+    top: 5px;
+    left: 700px;
+    padding: 3px;
+    background-color: cornsilk;
+    border-radius: 5px;
+} 
+/* .blur {
+    filter: blur(5px);
+} */

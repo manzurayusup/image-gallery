@@ -1,30 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Image Gallery</title>
 </head>
+
 <body>
-    <div class="image" data-index="0">
-        <img src="flowers.jpg" alt="Flowers">
-    </div>
-    <div class="image" data-index="1">
-        <img src="bird.jpg" alt="Bird on a Branch">
-    </div>
-    <div class="image" data-index="2">
-        <img src="winter.jpg" alt="Mountains">
+    <div id="image_container">
+
+        <img class="small" src="flowers.jpg" alt="Flowers">
+
+        <img class="small" src="bird.jpg" alt="Bird on a Branch">
+
+        <img class="small" src="winter.jpg" alt="Mountains">
+
+        <img class="small" src="winter_trees.jpg" alt="Trees in Winter">
+
+        <img class="small" src="ice_cream.png" alt="Eating Ice Cream in Germany">
+
+        <img class="small" src="mountains.jpg" alt="Mountains over the Lake">
+
     </div>
 
+
     <script>
-        let images = document.getElementsByClassName("image");
+        let images = document.getElementsByTagName("img");
         for (let i = 0; i < images.length; i++) {
             images[i].addEventListener("click", makeBigger);
         }
-
+        document.getElementsByName("close_btn")[0].addEventListener("click", closeImage);
         function makeBigger() {
-            // make the image take up the whole page
+
+            this.setAttribute("class", "big-image");    //change image's class
+            //create close button and set its class:
+            let close_btn = document.createElement("button");
+            close_btn.innerHTML = "Close";
+            close_btn.setAttribute("class", "close_btn");
+            //make background blurry:
+            // document.getElementById("image_container").setAttribute("class", "blur");
+            // document.getElementsByTagName("body")[0].appendChild(this);
+            document.getElementById("image_container").appendChild(close_btn);
+
         }
+
+        function closeImage() {
+            //close the image:
+            document.getElementsByClassName("big-image")[0].setAttribute("class", "small");
+        }
+
     </script>
 </body>
+
 </html>
