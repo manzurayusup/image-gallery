@@ -36,39 +36,39 @@
         function onMouseOver() {
             // if it's not a big-image, add grayscale filter 
             let elem = document.getElementsByClassName("small");
-            if (!this.classList.contains("big-image")) {
-                this.classList.add("filter");
+            if (!this.classList.contains("js-big-image")) {
+                this.classList.add("js-filter");
             } 
         }
         function onMouseOut() {
             let elem = document.getElementsByClassName("small");
             // if not big-image, remove class "filter" from image:
-            if (!this.classList.contains("big-image")) {
-                this.classList.remove("filter");
+            if (!this.classList.contains("js-big-image")) {
+                this.classList.remove("js-filter");
             }   
         }
         function makeBigger() {
 
-            this.setAttribute("class", "big-image");    //change image's class
+            this.setAttribute("class", "js-big-image");    //change image's class
             //create close button and set its class:
             let close_btn = document.createElement("button");
             close_btn.innerHTML = "Close";
-            close_btn.setAttribute("class", "close_btn");
+            close_btn.setAttribute("class", "js-close_btn");
             // make background blurry:  (might use later)
             // document.getElementById("image_container").setAttribute("class", "blur");
             // document.getElementsByTagName("body")[0].appendChild(this);
             document.getElementById("image_container").appendChild(close_btn);
             //I WONDER IF IT'S OK TO HAVE ADDEVENT LISTENER INSIDE FUNCTION:
-            document.getElementsByClassName("close_btn")[0].addEventListener("click", closeImage);
+            document.getElementsByClassName("js-close_btn")[0].addEventListener("click", closeImage);
         }
 
         function closeImage() {
             //close the image:
-            let e = document.getElementsByClassName("big-image")[0];
+            let e = document.getElementsByClassName("js-big-image")[0];
             e.classList.remove("small");
             e.setAttribute("class", "small");
             let parent = document.getElementById("image_container");
-            parent.removeChild(document.getElementsByClassName("close_btn")[0]);
+            parent.removeChild(document.getElementsByClassName("js-close_btn")[0]);
         }
 
     </script>
