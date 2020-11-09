@@ -34,20 +34,21 @@
             images[i].addEventListener("click", makeBigger);
             //images[i].addEventListener("mouseout", onMouseOut);
         }
+
+        /* Enlarges the clicked image and adds close button and left/right arrows */
         function makeBigger() {
             let container = document.createElement("div");  // create div to hold enlarged img
             container.className = "js-big-div";
 
             // clone the image:
-            let imageClone = this.cloneNode(true);  
+            let imageClone = this.cloneNode(true);
             imageClone.className = "js-big-image";
-            container.appendChild(imageClone);    
+            container.appendChild(imageClone);
 
-            // create close button:
-            let closeBtn = document.createElement("button");   
-            closeBtn.innerHTML = "Close";
-            closeBtn.setAttribute("class", "js-close_btn");   
-            container.appendChild(closeBtn);                   
+            let closeIcon = document.createElement("i");
+            closeIcon.setAttribute("class", "fas fa-times-circle fa-lg js-close_btn");
+             closeIcon.style.backgroundColor = "blue";
+            container.appendChild(closeIcon);
 
             // left arrow:
             let left = document.createElement("i");
@@ -61,11 +62,10 @@
             right.id = "js-right-arrow";
             right.style.color = "gray";
             container.appendChild(right);
-            
+
             document.getElementById("image_container").style.display = "none";
             document.getElementsByTagName("body")[0].appendChild(container);
 
-            //I WONDER IF IT'S OK TO HAVE ADDEVENT LISTENER INSIDE FUNCTION:
             // add event listeners to button and arrows:
             document.getElementsByClassName("js-close_btn")[0].addEventListener("click", closeImage);
             left.addEventListener("click", previousImage);
@@ -74,27 +74,37 @@
 
         /* Closes enlarged image and goes back to gallery view */
         function closeImage() {
-            document.getElementsByClassName("js-big-div")[0].remove();
+            document.getElementsByClassName("js-big-div")[0].remove();      // remove big-div
             document.getElementById("image_container").style.display = "block";
-            
+
         }
-        /* Swaps the curernt image with the previous image */
+        /* Swaps the current image with the previous image */
         function previousImage() {
-            let idx = parseInt(this.dataset.index);
-            //let index = parseInt(this.querySelector(`[data-index="${index}"`));
-            console.log(idx);
-            if (index > 0) {
-                let prevImg = document.querySelector(`[data-index="${idx-1}"`);   // get previous image
-                document.getElementById("image_container").replaceChild(prevImg, this);
-                
+            let img = document.getElementsByClassName("js-big-image")[0];
+            let idx = parseInt(img.dataset.index);
+            if (idx > 0) {      // if not the first image
+                swapImages(img, idx - 1);   // swap with previous image
             } else {
-                console.log("This is the first image.");
+                console.log("This is the first image!");
             }
         }
         /* Swaps the curernt image with the next image */
         function nextImage() {
-
-        }   
+            let img = document.getElementsByClassName("js-big-image")[0];
+            let idx = parseInt(img.dataset.index);
+            let allImages = document.getElementsByClassName("small");   // to get how many images there are
+            if (idx < allImages.length - 1) {   // if it's not the last image
+                swapImages(img, idx + 1);   // swap with next image
+            } else {
+                console.log("This is the last image!");
+            }
+        }
+        /* Swaps image oldImage with the image with data-index=newIndex inside the js-big-div */
+        function swapImages(oldImage, newIndex) {
+            let newImgClone = document.querySelector(`[data-index="${newIndex}"`).cloneNode(true);   // get previous image
+            newImgClone.className = "js-big-image";
+            document.getElementsByClassName("js-big-div")[0].replaceChild(newImgClone, oldImage);
+        }
 
 
     </script>

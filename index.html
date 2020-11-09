@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/6468cbf634.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Image Gallery</title>
 </head>
@@ -24,6 +25,9 @@
         <img class="small" src="mountains.jpg" alt="Mountains over the Lake" data-index="5">
 
     </div>
+    <div class="big-div">
+        <i></i>
+    </div>
 
 
     <script>
@@ -33,6 +37,7 @@
             images[i].addEventListener("click", makeBigger); 
             images[i].addEventListener("mouseout", onMouseOut);
         }
+        /* Adds filter to the image on hover */
         function onMouseOver() {
             // if it's not a big-image, add grayscale filter 
             let elem = document.getElementsByClassName("small");
@@ -40,6 +45,7 @@
                 this.classList.add("js-filter");
             } 
         }
+        /* Removes the filter from image on mouseout */
         function onMouseOut() {
             let elem = document.getElementsByClassName("small");
             // if not big-image, remove class "filter" from image:
@@ -47,28 +53,77 @@
                 this.classList.remove("js-filter");
             }   
         }
-        function makeBigger() {
 
-            this.setAttribute("class", "js-big-image");    //change image's class
-            //create close button and set its class:
-            let close_btn = document.createElement("button");
-            close_btn.innerHTML = "Close";
-            close_btn.setAttribute("class", "js-close_btn");
-            // make background blurry:  (might use later)
-            // document.getElementById("image_container").setAttribute("class", "blur");
-            // document.getElementsByTagName("body")[0].appendChild(this);
-            document.getElementById("image_container").appendChild(close_btn);
-            //I WONDER IF IT'S OK TO HAVE ADDEVENT LISTENER INSIDE FUNCTION:
+        /* Enlarges the clicked image and adds close button and left/right arrows */
+        function makeBigger() {
+            let container = document.createElement("div");  // create div to hold enlarged img
+            container.className = "js-big-div";
+
+            // clone the image:
+            let imageClone = this.cloneNode(true);
+            imageClone.className = "js-big-image";
+            container.appendChild(imageClone);
+
+            let closeIcon = document.createElement("i");
+            closeIcon.setAttribute("class", "fas fa-times-circle fa-3x js-close_btn");
+            closeIcon.style.background = "transparent";
+            container.appendChild(closeIcon);
+
+            // left arrow:
+            let left = document.createElement("i");
+            left.className = "fas fa-chevron-left fa-7x";
+            left.id = "js-left-arrow";
+            left.style.color = "gray";
+            container.appendChild(left);
+            // right arrow:
+            let right = document.createElement("i");
+            right.className = "fas fa-chevron-right fa-7x";
+            right.id = "js-right-arrow";
+            right.style.color = "gray";
+            container.appendChild(right);
+
+            document.getElementById("image_container").style.display = "none";
+            document.getElementsByTagName("body")[0].appendChild(container);
+
+            // add event listeners to button and arrows:
             document.getElementsByClassName("js-close_btn")[0].addEventListener("click", closeImage);
+            left.addEventListener("click", previousImage);
+            right.addEventListener("click", nextImage);
         }
 
+        /* Closes enlarged image and goes back to gallery view */
         function closeImage() {
-            //close the image:
-            let e = document.getElementsByClassName("js-big-image")[0];
-            e.classList.remove("small");
-            e.setAttribute("class", "small");
-            let parent = document.getElementById("image_container");
-            parent.removeChild(document.getElementsByClassName("js-close_btn")[0]);
+            // 
+            document.getElementsByClassName("js-big-div")[0].remove();      // remove big-div
+            document.getElementById("image_container").style.display = "block";
+        }
+
+        /* Swaps the current image with the previous image */
+        function previousImage() {
+            let img = document.getElementsByClassName("js-big-image")[0];
+            let idx = parseInt(img.dataset.index);
+            if (idx > 0) {      // if not the first image
+                swapImages(img, idx - 1);   // swap with previous image
+            } else {
+                console.log("This is the first image!");
+            }
+        }
+        /* Swaps the curernt image with the next image */
+        function nextImage() {
+            let img = document.getElementsByClassName("js-big-image")[0];
+            let idx = parseInt(img.dataset.index);
+            let allImages = document.getElementsByClassName("small");   // to get how many images there are
+            if (idx < allImages.length - 1) {   // if it's not the last image
+                swapImages(img, idx + 1);   // swap with next image
+            } else {
+                console.log("This is the last image!");
+            }
+        }
+        /* Swaps image oldImage with the image with data-index=newIndex inside the js-big-div */
+        function swapImages(oldImage, newIndex) {
+            let newImgClone = document.querySelector(`[data-index="${newIndex}"`).cloneNode(true);   // get previous image
+            newImgClone.className = "js-big-image";
+            document.getElementsByClassName("js-big-div")[0].replaceChild(newImgClone, oldImage);
         }
 
     </script>
