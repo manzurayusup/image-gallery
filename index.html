@@ -52,7 +52,7 @@
     </div>
     <div class="js-big-div">
         <i class="fas fa-times-circle fa-3x js-close_btn"></i>
-        <img src="" class="js-big-image"> 
+        <img src="placeholder" alt="Enlarged Image" class="js-big-image"> 
         <i id="js-left-arrow" class="fas fa-chevron-left fa-7x"></i>
         <i id="js-right-arrow" class="fas fa-chevron-right fa-7x"></i>
     </div>
@@ -90,6 +90,7 @@
             document.getElementsByClassName("js-big-div")[0].style.display = "block";
             let image = document.getElementsByClassName("js-big-image")[0];
             image.setAttribute("src", this.getAttribute("src"));
+            image.setAttribute("alt", this.getAttribute("alt")); 
             image.setAttribute("data-index", this.dataset.index);
             
             document.getElementById("image_container").style.display = "none";
@@ -114,6 +115,7 @@
             console.log(idx)
             if (idx > 0) {      // if it's not the first image
                 img.setAttribute("src", document.querySelector(`[data-index="${idx - 1}"`).getAttribute("src"));
+                img.setAttribute("alt", document.querySelector(`[data-index="${idx - 1}"`).getAttribute("alt"));
                 img.setAttribute("data-index", `${idx - 1}`);
             } else {
                 console.log("This is the first image!");
@@ -126,6 +128,7 @@
             let allImages = document.getElementById("image_container").children;
             if (idx < allImages.length - 1) {   // if it's not the last image
                 img.setAttribute("src", document.querySelector(`[data-index="${idx + 1}"`).getAttribute("src"));
+                img.setAttribute("alt", document.querySelector(`[data-index="${idx + 1}"`).getAttribute("alt"));
                 img.setAttribute("data-index", `${idx + 1}`);
             } else {
                 console.log("This is the last image!");
