@@ -4,14 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/6468cbf634.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Image Gallery</title>
 </head>
 
 <body>
+    <h1>Your image gallery</h1>
     <div id="image_container">
-
         <img class="small" src="flowers.jpg" alt="Flowers" data-index="0">
 
         <img class="small" src="bird.jpg" alt="Bird on a Branch" data-index="1">
@@ -24,9 +25,36 @@
 
         <img class="small" src="mountains.jpg" alt="Mountains over the Lake" data-index="5">
 
+        <img class="small" src="sunset.jpg" alt="Pine Glades Wetlands" data-index="6">
+
+        <img class="small" src="river.jpg" alt="River Stones" data-index="7">
+
+        <img class="small" src="kitten_snow.jpg" alt="Kitten in Winter" data-index="8">
+
+        <img class="small" src="dog_winter.jpg" alt="Dog in Winter" data-index="9">
+
+        <img class="small" src="dog-in-cold.jpg" alt="Dog in Cold" data-index="10">
+
+        <img class="small" src="bird_winter.jpg" alt="Bird in Winter" data-index="11">
+
+        <img class="small" src="hummingbird.jpg" alt="Hummingbird" data-index="12">
+
+        <img class="small" src="the_alps.jpg" alt="The Alps" data-index="13">
+
+        <img class="small" src="house.jpg" alt="House on the Mountains" data-index="14">
+
+        <img class="small" src="waterfall.jpg" alt="Swiss Alps Waterfall" data-index="15">
+
+        <img class="small" src="road.jpg" alt="Mountain Village" data-index="16">
+
+        <img class="small" src="borealis.jpg" alt="Northern Lights" data-index="17">
+
     </div>
-    <div class="big-div">
-        <i></i>
+    <div class="js-big-div">
+        <i class="fas fa-times-circle fa-3x js-close_btn"></i>
+        <img src="" class="js-big-image"> 
+        <i id="js-left-arrow" class="fas fa-chevron-left fa-7x"></i>
+        <i id="js-right-arrow" class="fas fa-chevron-right fa-7x"></i>
     </div>
 
 
@@ -56,54 +84,37 @@
 
         /* Enlarges the clicked image and adds close button and left/right arrows */
         function makeBigger() {
-            let container = document.createElement("div");  // create div to hold enlarged img
-            container.className = "js-big-div";
-
-            // clone the image:
-            let imageClone = this.cloneNode(true);
-            imageClone.className = "js-big-image";
-            container.appendChild(imageClone);
-
-            let closeIcon = document.createElement("i");
-            closeIcon.setAttribute("class", "fas fa-times-circle fa-3x js-close_btn");
-            closeIcon.style.background = "transparent";
-            container.appendChild(closeIcon);
-
-            // left arrow:
-            let left = document.createElement("i");
-            left.className = "fas fa-chevron-left fa-7x";
-            left.id = "js-left-arrow";
-            left.style.color = "gray";
-            container.appendChild(left);
-            // right arrow:
-            let right = document.createElement("i");
-            right.className = "fas fa-chevron-right fa-7x";
-            right.id = "js-right-arrow";
-            right.style.color = "gray";
-            container.appendChild(right);
-
+           
             document.getElementById("image_container").style.display = "none";
-            document.getElementsByTagName("body")[0].appendChild(container);
+            document.getElementsByTagName("h1")[0].style.display = "none";
+            document.getElementsByClassName("js-big-div")[0].style.display = "block";
+            let image = document.getElementsByClassName("js-big-image")[0];
+            image.setAttribute("src", this.getAttribute("src"));
+            image.setAttribute("data-index", this.dataset.index);
+            
+            document.getElementById("image_container").style.display = "none";
 
             // add event listeners to button and arrows:
             document.getElementsByClassName("js-close_btn")[0].addEventListener("click", closeImage);
-            left.addEventListener("click", previousImage);
-            right.addEventListener("click", nextImage);
+            document.getElementsByClassName("fa-chevron-left")[0].addEventListener("click", previousImage);
+            document.getElementsByClassName("fa-chevron-right")[0].addEventListener("click", nextImage);
         }
 
         /* Closes enlarged image and goes back to gallery view */
         function closeImage() {
-            // 
-            document.getElementsByClassName("js-big-div")[0].remove();      // remove big-div
+            document.getElementsByClassName("js-big-div")[0].style.display = "none";      
             document.getElementById("image_container").style.display = "block";
+            document.getElementsByTagName("h1")[0].style.display = "block";
         }
 
         /* Swaps the current image with the previous image */
         function previousImage() {
             let img = document.getElementsByClassName("js-big-image")[0];
             let idx = parseInt(img.dataset.index);
-            if (idx > 0) {      // if not the first image
-                swapImages(img, idx - 1);   // swap with previous image
+            console.log(idx)
+            if (idx > 0) {      // if it's not the first image
+                img.setAttribute("src", document.querySelector(`[data-index="${idx - 1}"`).getAttribute("src"));
+                img.setAttribute("data-index", `${idx - 1}`);
             } else {
                 console.log("This is the first image!");
             }
@@ -112,20 +123,15 @@
         function nextImage() {
             let img = document.getElementsByClassName("js-big-image")[0];
             let idx = parseInt(img.dataset.index);
-            let allImages = document.getElementsByClassName("small");   // to get how many images there are
+            let allImages = document.getElementById("image_container").children;
             if (idx < allImages.length - 1) {   // if it's not the last image
-                swapImages(img, idx + 1);   // swap with next image
+                img.setAttribute("src", document.querySelector(`[data-index="${idx + 1}"`).getAttribute("src"));
+                img.setAttribute("data-index", `${idx + 1}`);
             } else {
                 console.log("This is the last image!");
             }
         }
-        /* Swaps image oldImage with the image with data-index=newIndex inside the js-big-div */
-        function swapImages(oldImage, newIndex) {
-            let newImgClone = document.querySelector(`[data-index="${newIndex}"`).cloneNode(true);   // get previous image
-            newImgClone.className = "js-big-image";
-            document.getElementsByClassName("js-big-div")[0].replaceChild(newImgClone, oldImage);
-        }
-
+        
     </script>
 </body>
 
