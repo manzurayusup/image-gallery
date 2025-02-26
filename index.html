@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/6468cbf634.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/6468cbf634.js" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Image Gallery</title>
 </head>
@@ -51,10 +51,10 @@
 
     </div>
     <div class="js-big-div">
-        <i class="fas fa-times-circle fa-3x js-close_btn"></i>
+        <img class="js-close_btn" src="xmark.svg" alt="Close Button">
         <img src="winter.jpg" alt="Winter" class="js-big-image"> 
-        <i id="js-left-arrow" class="fas fa-chevron-left fa-7x"></i>
-        <i id="js-right-arrow" class="fas fa-chevron-right fa-7x"></i>
+        <img id="js-left-arrow" class="left-arrow" src="angle-left.svg" alt="Left Arrow">
+        <img id="js-right-arrow" class="right-arrow" src="angle-right.svg" alt="Right Arrow">
     </div>
 
 
@@ -84,7 +84,6 @@
 
         /* Enlarges the clicked image and adds close button and left/right arrows */
         function makeBigger() {
-           
             document.getElementById("image_container").style.display = "none";
             document.getElementsByTagName("h1")[0].style.display = "none";
             document.getElementsByClassName("js-big-div")[0].style.display = "block";
@@ -93,12 +92,10 @@
             image.setAttribute("alt", this.getAttribute("alt")); 
             image.setAttribute("data-index", this.dataset.index);
             
-            document.getElementById("image_container").style.display = "none";
-
             // add event listeners to button and arrows:
             document.getElementsByClassName("js-close_btn")[0].addEventListener("click", closeImage);
-            document.getElementsByClassName("fa-chevron-left")[0].addEventListener("click", previousImage);
-            document.getElementsByClassName("fa-chevron-right")[0].addEventListener("click", nextImage);
+            document.getElementsByClassName("left-arrow")[0].addEventListener("click", previousImage);
+            document.getElementsByClassName("right-arrow")[0].addEventListener("click", nextImage);
         }
 
         /* Closes enlarged image and goes back to gallery view */
@@ -111,28 +108,25 @@
         /* Swaps the current image with the previous image */
         function previousImage() {
             let img = document.getElementsByClassName("js-big-image")[0];
+            let n = document.getElementById("image_container").children.length;
             let idx = parseInt(img.dataset.index);
-            console.log(idx)
-            if (idx > 0) {      // if it's not the first image
-                img.setAttribute("src", document.querySelector(`[data-index="${idx - 1}"`).getAttribute("src"));
-                img.setAttribute("alt", document.querySelector(`[data-index="${idx - 1}"`).getAttribute("alt"));
-                img.setAttribute("data-index", `${idx - 1}`);
-            } else {
-                console.log("This is the first image!");
-            }
+            let prevIdx = (idx - 1 + n) % n;
+
+            img.setAttribute("src", document.querySelector(`[data-index="${prevIdx}"]`).getAttribute("src"));
+            img.setAttribute("alt", document.querySelector(`[data-index="${prevIdx}"]`).getAttribute("alt"));
+            img.setAttribute("data-index", prevIdx);
         }
+
         /* Swaps the curernt image with the next image */
         function nextImage() {
             let img = document.getElementsByClassName("js-big-image")[0];
+            let n = document.getElementById("image_container").children.length;
             let idx = parseInt(img.dataset.index);
-            let allImages = document.getElementById("image_container").children;
-            if (idx < allImages.length - 1) {   // if it's not the last image
-                img.setAttribute("src", document.querySelector(`[data-index="${idx + 1}"`).getAttribute("src"));
-                img.setAttribute("alt", document.querySelector(`[data-index="${idx + 1}"`).getAttribute("alt"));
-                img.setAttribute("data-index", `${idx + 1}`);
-            } else {
-                console.log("This is the last image!");
-            }
+            let nextIdx = (idx + 1) % n;
+            
+            img.setAttribute("src", document.querySelector(`[data-index="${nextIdx}"]`).getAttribute("src"));
+            img.setAttribute("alt", document.querySelector(`[data-index="${nextIdx}"]`).getAttribute("alt"));
+            img.setAttribute("data-index", nextIdx);
         }
         
     </script>
