@@ -1,2 +1,2 @@
 # Simple Image Gallery
-This is just a simple little project. I mainly focused on the cuteness of the images and aesthetics of the site. 
+This is a simple little project. I mainly focused on the cuteness of the images and aesthetics of the site. Check it out here: [text](https://manzurayusup.github.io/image-gallery/)
