@@ -51,7 +51,7 @@
 
     </div>
     <div class="js-big-div">
-        <img class="js-close_btn" src="xmark.svg" alt="Close Button">
+        <img class="js-close_btn" src="xmark.svg" alt="Close Button" onClick="closeImage()">
         <img src="winter.jpg" alt="Winter" class="js-big-image"> 
         <img id="js-left-arrow" class="left-arrow" src="angle-left.svg" alt="Left Arrow">
         <img id="js-right-arrow" class="right-arrow" src="angle-right.svg" alt="Right Arrow">
@@ -84,9 +84,7 @@
 
         /* Enlarges the clicked image and adds close button and left/right arrows */
         function makeBigger() {
-            document.getElementById("image_container").style.display = "none";
-            document.getElementsByTagName("h1")[0].style.display = "none";
-            document.getElementsByClassName("js-big-div")[0].style.display = "block";
+            document.getElementsByClassName("js-big-div")[0].style.display = "flex";
             let image = document.getElementsByClassName("js-big-image")[0];
             image.setAttribute("src", this.getAttribute("src"));
             image.setAttribute("alt", this.getAttribute("alt")); 
@@ -101,11 +99,10 @@
         /* Closes enlarged image and goes back to gallery view */
         function closeImage() {
             document.getElementsByClassName("js-big-div")[0].style.display = "none";      
-            document.getElementById("image_container").style.display = "block";
-            document.getElementsByTagName("h1")[0].style.display = "block";
         }
 
-        /* Swaps the current image with the previous image */
+        /* Swaps the current image with the previous image, looping back to the last image
+            once we reach the beginning*/
         function previousImage() {
             let img = document.getElementsByClassName("js-big-image")[0];
             let n = document.getElementById("image_container").children.length;
@@ -117,7 +114,8 @@
             img.setAttribute("data-index", prevIdx);
         }
 
-        /* Swaps the curernt image with the next image */
+        /* Swaps the curernt image with the next image, looping back to the beginning once
+            we reach the last image  */
         function nextImage() {
             let img = document.getElementsByClassName("js-big-image")[0];
             let n = document.getElementById("image_container").children.length;
